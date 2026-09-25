@@ -1,0 +1,18 @@
+llama-index-core
+llama-index-readers-file
+llama-index-embeddings-ollama
+langchain-core
+langgraph
+gradio
+ollama
+pypdf
+rich
+psutil
+# software factory (factory.py / factory_cli.py)
+# install CPU-only torch first:  pip install torch --index-url https://download.pytorch.org/whl/cpu
+laya
+tree-sitter-language-pack
+ruff
+pytest
+mcp>=2.2
+pillow
