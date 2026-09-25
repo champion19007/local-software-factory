@@ -263,3 +263,7 @@ tests/              Offline tests (no Ollama needed)
 [Ollama](https://ollama.com), [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk),
 [Rich](https://github.com/Textualize/rich) and [Gradio](https://gradio.app).
 Model weights are downloaded from their publishers and are not included in this repository.
+
+## License
+
+[MIT](LICENSE). The models this project downloads and runs (Qwen 3, Laya, nomic-embed-text) come under their own licenses.
