@@ -20,18 +20,22 @@ Everything runs on your machine. No cloud APIs and no API keys.
 
 ## How it works
 
-```mermaid
-flowchart TD
-    T[Your task] --> TR["Triage<br/>Laya: kind, multi-part"]
-    TR --> R["Retrieve<br/>LlamaIndex: whole-line excerpts"]
-    R -->|question| A["Answer<br/>Qwen"]
-    R -->|code| G["Generate<br/>Qwen: EDIT blocks + new files"]
-    G --> C["Check (MCP server)<br/>apply edits → ast → ruff → pytest"]
-    C -->|"fail (retry ≤ 3)"| G
-    C --> V{"Review<br/>you: keep / discard / change"}
-    V -->|feedback| G
-    V -->|approve| W["Write (MCP commit)<br/>exactly the files that passed"]
-```
+Every task goes through the same pipeline. The purple steps use a model, the green steps are ordinary code,
+and you make the last call:
+
+<p align="center">
+  <img src="docs/flow.svg" alt="Task flow: your task goes to Laya triage, then retrieval. Questions are answered directly. Code tasks go to Qwen, which writes edit blocks; the MCP server applies and tests them, sending failures back to Qwen up to 3 times; you review the diff and either approve it, which commits the tested files, or send feedback for a revision." width="600">
+</p>
+
+1. **Triage.** Laya reads your request and decides: new code, bug fix, or question? Is it a multi-part job?
+   Multi-part jobs switch on Qwen's reasoning mode; small ones skip it, because on a CPU it's slow.
+2. **Retrieve.** LlamaIndex finds the relevant code in your project. Files you name come first.
+3. **Generate.** Qwen writes *edit blocks* (change these exact lines to these) for existing files, and whole
+   files only for new ones. Questions get a direct answer instead, and stop here.
+4. **Check.** The MCP server copies your project into a sandbox, applies the edits there, and runs ast, a
+   placeholder scan, ruff and pytest. If anything fails, the exact error goes back to Qwen, up to 3 attempts.
+5. **Review.** You see the diff and choose: keep it, throw it away, or say what to change.
+6. **Write.** Only then does the MCP server copy the files that passed into your project.
 
 | Layer | Component | Role |
 |---|---|---|
@@ -41,20 +45,11 @@ flowchart TD
 | Generation | Qwen 3 8B via Ollama | Writes `SEARCH/REPLACE` edit blocks for existing files and whole files only for new ones. Streams tokens to the UI. |
 | Guardrails | `mcp_server.py` (MCP over stdio) | The **only** component that writes to the workspace or runs code. Applies edits in a throwaway sandbox copy, runs ast → placeholder scan → ruff → pytest, and commits the exact files that passed. |
 
-```mermaid
-flowchart LR
-    subgraph P["Python process (~2.5 GB)"]
-        UI[Terminal UI] --- LG[LangGraph + MCP client] --- L[Laya] --- LI["LlamaIndex (read-only)"]
-    end
-    subgraph O["Ollama (~6.7 GB)"]
-        Q[qwen3:8b] --- E[nomic-embed-text]
-    end
-    M["MCP server (~70 MB)"]
-    P <-->|HTTP| O
-    P <-->|stdio JSON-RPC| M
-    M --> S[Sandbox copies]
-    M -->|commit| WS[workspace/]
-```
+What runs where, and how much memory each part uses:
+
+<p align="center">
+  <img src="docs/architecture.svg" alt="Runtime layout: a Python process (about 2.5 GB) with the terminal UI, LangGraph and the MCP client, Laya, and a read-only LlamaIndex; an Ollama server (about 6.7 GB, CPU only) serving qwen3:8b and nomic-embed-text over HTTP; and an MCP server (about 70 MB) over stdio that runs tests in sandbox copies and is the only writer to the workspace." width="600">
+</p>
 
 ### Why edit blocks instead of whole files
 
@@ -163,6 +158,12 @@ Robo talks in plain words, shows a robot face while it works, and uses single-ke
 **Y** keep · **N** throw away · **T** tell me what to change · **S** show the code · **P** try it.
 Code that failed its checks **can't be kept** from Robo's screen, and nothing is saved without **Y**.
 
+<p align="center">
+  <img src="docs/robo.svg" alt="A Robo session: the welcome screen with example requests; asking for a joke program while Robo shows 'Writing the code… 1 min 12 s'; Robo fixing its own mistake and reporting 'I tested it, and it works!'; the 'Here's what I made' panel with Keep it / Throw it away / Tell me what to change / Show the code buttons; running the program, which tells a scarecrow joke; and Robo explaining what a robot is in simple words." width="720">
+</p>
+
+<sub>From a real session. Regenerate with <code>python docs/make_screenshots.py</code>.</sub>
+
 > **Grown-ups:** *Try it* (**P**) runs the program Robo made directly on this computer, not in the sandbox.
 > It has passed its tests, but tests don't prove code is harmless. Be nearby.
 
@@ -246,6 +247,7 @@ kid_cli.py          Robo, the kid-friendly UI
 app.py / cli.py     Document chat: Gradio web UI / terminal
 build_robo_exe.py   Builds the Robo.exe desktop launcher
 launcher/           C# launcher template
+docs/               README diagrams, Robo screenshot and the script that regenerates it
 tests/              Offline tests (no Ollama needed)
 ```
 

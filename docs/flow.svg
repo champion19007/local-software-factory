@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 720" width="680" height="720" role="img" aria-labelledby="t d">
+<title id="t">Software factory task flow</title>
+<desc id="d">A task goes to Laya triage, then retrieval. Questions go to an answer node. Code tasks go to Qwen, which writes edit blocks and new files. The MCP server applies the edits in a sandbox and runs checks; failures loop back up to three times. You review; feedback loops back, approval commits exactly the files that passed.</desc>
+<style>
+  text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; }
+  .th { font-size: 14px; font-weight: 600; }
+  .ts { font-size: 12px; }
+  .arr { stroke: #888780; stroke-width: 1.5; fill: none; }
+  .gray rect { fill: #F1EFE8; stroke: #5F5E5A; } .gray .th { fill: #2C2C2A; }
+  .purple rect { fill: #EEEDFE; stroke: #534AB7; } .purple .th { fill: #3C3489; } .purple .ts { fill: #534AB7; }
+  .teal rect { fill: #E1F5EE; stroke: #0F6E56; } .teal .th { fill: #085041; } .teal .ts { fill: #0F6E56; }
+  .coral rect { fill: #FAECE7; stroke: #993C1D; } .coral .th { fill: #712B13; } .coral .ts { fill: #993C1D; }
+  .label { fill: #5F5E5A; }
+  @media (prefers-color-scheme: dark) {
+    .gray rect { fill: #444441; stroke: #B4B2A9; } .gray .th { fill: #F1EFE8; }
+    .purple rect { fill: #3C3489; stroke: #AFA9EC; } .purple .th { fill: #EEEDFE; } .purple .ts { fill: #CECBF6; }
+    .teal rect { fill: #085041; stroke: #5DCAA5; } .teal .th { fill: #E1F5EE; } .teal .ts { fill: #9FE1CB; }
+    .coral rect { fill: #712B13; stroke: #F0997B; } .coral .th { fill: #FAECE7; } .coral .ts { fill: #F5C4B3; }
+    .label { fill: #B4B2A9; }
+  }
+</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<g class="gray"><rect x="250" y="40" width="180" height="44" rx="8"/><text class="th" x="340" y="62" text-anchor="middle" dominant-baseline="central">Your task</text></g>
+<line class="arr" x1="340" y1="88" x2="340" y2="120" marker-end="url(#a)"/>
+<g class="purple"><rect x="240" y="124" width="200" height="56" rx="8"/><text class="th" x="340" y="142" text-anchor="middle" dominant-baseline="central">Triage</text><text class="ts" x="340" y="162" text-anchor="middle" dominant-baseline="central">Laya · kind, multi-part</text></g>
+<line class="arr" x1="340" y1="184" x2="340" y2="216" marker-end="url(#a)"/>
+<g class="purple"><rect x="240" y="220" width="200" height="56" rx="8"/><text class="th" x="340" y="238" text-anchor="middle" dominant-baseline="central">Retrieve</text><text class="ts" x="340" y="258" text-anchor="middle" dominant-baseline="central">whole-line excerpts</text></g>
+<path class="arr" d="M 240 248 L 130 248 L 130 312" marker-end="url(#a)"/>
+<text class="ts label" x="186" y="238" text-anchor="middle">question</text>
+<line class="arr" x1="340" y1="280" x2="340" y2="312" marker-end="url(#a)"/>
+<g class="purple"><rect x="40" y="316" width="180" height="56" rx="8"/><text class="th" x="130" y="334" text-anchor="middle" dominant-baseline="central">Answer</text><text class="ts" x="130" y="354" text-anchor="middle" dominant-baseline="central">Qwen · questions</text></g>
+<g class="purple"><rect x="240" y="316" width="200" height="56" rx="8"/><text class="th" x="340" y="334" text-anchor="middle" dominant-baseline="central">Generate</text><text class="ts" x="340" y="354" text-anchor="middle" dominant-baseline="central">Qwen · EDIT blocks + new files</text></g>
+<line class="arr" x1="340" y1="376" x2="340" y2="408" marker-end="url(#a)"/>
+<g class="teal"><rect x="240" y="412" width="200" height="56" rx="8"/><text class="th" x="340" y="430" text-anchor="middle" dominant-baseline="central">Check</text><text class="ts" x="340" y="450" text-anchor="middle" dominant-baseline="central">MCP · apply edits, run tests</text></g>
+<path class="arr" d="M 440 440 L 490 440 L 490 352 L 444 352" marker-end="url(#a)"/>
+<text class="ts label" x="498" y="396" dominant-baseline="central">fail · retry ≤3</text>
+<line class="arr" x1="340" y1="472" x2="340" y2="504" marker-end="url(#a)"/>
+<g class="coral"><rect x="240" y="508" width="200" height="56" rx="8"/><text class="th" x="340" y="526" text-anchor="middle" dominant-baseline="central">Review</text><text class="ts" x="340" y="546" text-anchor="middle" dominant-baseline="central">you: keep · discard · change</text></g>
+<path class="arr" d="M 440 536 L 600 536 L 600 330 L 444 330" marker-end="url(#a)"/>
+<text class="ts label" x="608" y="436" dominant-baseline="central">revise</text>
+<line class="arr" x1="340" y1="568" x2="340" y2="600" marker-end="url(#a)"/>
+<g class="teal"><rect x="240" y="604" width="200" height="56" rx="8"/><text class="th" x="340" y="622" text-anchor="middle" dominant-baseline="central">Write</text><text class="ts" x="340" y="642" text-anchor="middle" dominant-baseline="central">MCP commit · files that passed</text></g>
+
+<g class="purple"><rect x="130" y="684" width="12" height="12" rx="2"/></g><text class="ts label" x="148" y="690" dominant-baseline="central">model-driven</text>
+<g class="teal"><rect x="270" y="684" width="12" height="12" rx="2"/></g><text class="ts label" x="288" y="690" dominant-baseline="central">deterministic code</text>
+<g class="coral"><rect x="440" y="684" width="12" height="12" rx="2"/></g><text class="ts label" x="458" y="690" dominant-baseline="central">you</text>
+</svg>

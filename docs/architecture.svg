@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 416" width="680" height="416" role="img" aria-labelledby="t d">
+<title id="t">Software factory runtime layout</title>
+<desc id="d">The Python process holds the terminal UI, LangGraph with the MCP client, Laya and a read-only LlamaIndex. It talks to a CPU-only Ollama server over HTTP and to the MCP server over stdio JSON-RPC. The MCP server runs tests in sandbox copies and is the only writer to the workspace.</desc>
+<style>
+  text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; }
+  .th { font-size: 14px; font-weight: 600; }
+  .t { font-size: 14px; }
+  .ts { font-size: 12px; }
+  .arr { stroke: #888780; stroke-width: 1.5; fill: none; }
+  .gray > rect { fill: #F1EFE8; stroke: #5F5E5A; } .gray .th { fill: #2C2C2A; } .gray .ts { fill: #5F5E5A; }
+  .purple > rect { fill: #EEEDFE; stroke: #534AB7; } .purple .th { fill: #3C3489; } .purple .ts { fill: #534AB7; }
+  .teal > rect { fill: #E1F5EE; stroke: #0F6E56; } .teal .th { fill: #085041; } .teal .ts { fill: #0F6E56; }
+  .box rect { fill: #FFFFFF; stroke: #B4B2A9; } .box .t, .box .th { fill: #2C2C2A; } .box .ts { fill: #5F5E5A; }
+  @media (prefers-color-scheme: dark) {
+    .gray > rect { fill: #2C2C2A; stroke: #B4B2A9; } .gray .th { fill: #F1EFE8; } .gray .ts { fill: #D3D1C7; }
+    .purple > rect { fill: #3C3489; stroke: #AFA9EC; } .purple .th { fill: #EEEDFE; } .purple .ts { fill: #CECBF6; }
+    .teal > rect { fill: #085041; stroke: #5DCAA5; } .teal .th { fill: #E1F5EE; } .teal .ts { fill: #9FE1CB; }
+    .box rect { fill: #444441; stroke: #888780; } .box .t, .box .th { fill: #F1EFE8; } .box .ts { fill: #D3D1C7; }
+  }
+</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<g class="gray"><rect x="40" y="40" width="280" height="240" rx="12"/><text class="th" x="180" y="64" text-anchor="middle" dominant-baseline="central">Python process</text><text class="ts" x="180" y="84" text-anchor="middle" dominant-baseline="central">~2.5 GB</text></g>
+<g class="box"><rect x="60" y="100" width="240" height="36" rx="4"/><text class="t" x="180" y="118" text-anchor="middle" dominant-baseline="central">Terminal UI</text></g>
+<g class="box"><rect x="60" y="144" width="240" height="36" rx="4"/><text class="t" x="180" y="162" text-anchor="middle" dominant-baseline="central">LangGraph + MCP client</text></g>
+<g class="box"><rect x="60" y="188" width="240" height="36" rx="4"/><text class="t" x="180" y="206" text-anchor="middle" dominant-baseline="central">Laya · pinned · ~2 GB</text></g>
+<g class="box"><rect x="60" y="232" width="240" height="36" rx="4"/><text class="t" x="180" y="250" text-anchor="middle" dominant-baseline="central">LlamaIndex (read-only)</text></g>
+
+<g class="purple"><rect x="360" y="40" width="280" height="110" rx="12"/><text class="th" x="500" y="64" text-anchor="middle" dominant-baseline="central">Ollama server</text><text class="ts" x="500" y="84" text-anchor="middle" dominant-baseline="central">HTTP · CPU only · ~6.7 GB</text><text class="ts" x="500" y="112" text-anchor="middle" dominant-baseline="central">qwen3:8b · nomic-embed-text</text></g>
+<g class="teal"><rect x="360" y="170" width="280" height="110" rx="12"/><text class="th" x="500" y="194" text-anchor="middle" dominant-baseline="central">MCP server</text><text class="ts" x="500" y="214" text-anchor="middle" dominant-baseline="central">stdio JSON-RPC · ~70 MB</text><text class="ts" x="500" y="240" text-anchor="middle" dominant-baseline="central">validate · commit · discard</text><text class="ts" x="500" y="260" text-anchor="middle" dominant-baseline="central">ast · ruff · pytest</text></g>
+<line class="arr" x1="324" y1="95" x2="356" y2="95" marker-start="url(#a)" marker-end="url(#a)"/>
+<line class="arr" x1="324" y1="225" x2="356" y2="225" marker-start="url(#a)" marker-end="url(#a)"/>
+
+<g class="box"><rect x="40" y="320" width="180" height="56" rx="4"/><text class="th" x="130" y="338" text-anchor="middle" dominant-baseline="central">models/</text><text class="ts" x="130" y="358" text-anchor="middle" dominant-baseline="central">Laya, loaded offline</text></g>
+<g class="box"><rect x="250" y="320" width="180" height="56" rx="4"/><text class="th" x="340" y="338" text-anchor="middle" dominant-baseline="central">workspace/</text><text class="ts" x="340" y="358" text-anchor="middle" dominant-baseline="central">written by commit only</text></g>
+<g class="box"><rect x="460" y="320" width="180" height="56" rx="4"/><text class="th" x="550" y="338" text-anchor="middle" dominant-baseline="central">Sandbox copies</text><text class="ts" x="550" y="358" text-anchor="middle" dominant-baseline="central">tests run here</text></g>
+<line class="arr" x1="130" y1="316" x2="130" y2="284" marker-end="url(#a)"/>
+<line class="arr" x1="290" y1="316" x2="290" y2="284" marker-end="url(#a)" stroke-dasharray="4 3"/>
+<line class="arr" x1="400" y1="284" x2="400" y2="316" marker-end="url(#a)"/>
+<line class="arr" x1="560" y1="284" x2="560" y2="316" marker-end="url(#a)"/>
+</svg>
